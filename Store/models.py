@@ -1,8 +1,13 @@
 from django.db import models
 from django.urls import reverse
 from decimal import Decimal
-#from datetime import date
+from django.utils.text import slugify
+from datetime import date
 
+
+class ProductInStockQuerySet(models.QuerySet):
+    def in_stock(self):
+        return self.filter(stock_count_gt=0)
 
 
 
@@ -15,8 +20,18 @@ class Product(models.Model):
     date = models.DateField(auto_now=True)
     stock = models.IntegerField(default=50, help_text="How many items are currentl;y in stock")
     sku = models.CharField(verbose_name="Stock keeping Unit", max_length=20, unique=True) 
+    slug = models.SlugField(default="slugfield")
     
-    class Meta:        
+    #in_stock = ProductInStockQuerySet.as_manager()
+    
+    def save(self,*args,**kwargs): # overwrting save after checking if slug is empty then assign name to the slug field
+        if not self.slug:
+            self.slug = slugify(self.name)
+        return super().save(*args,**kwargs)
+    
+    class Meta:
+        #proxy = True
+        #abstract = True        
         ordering = ['price']       
         constraints=[models.CheckConstraint(check=models.Q(price__gte=0), name="price not negative")]
         
@@ -48,4 +63,13 @@ class ProductCategory(models.Model):
         return f"{self.categoryName}"
     
     class Meta:
+        ordering =["categoryName"]
+        verbose_name ="Category"
         verbose_name_plural ="Categories"
+        
+#subclass
+class DigitalProduct(Product):
+    file = models.FileField()
+    
+class PhysicalProduct(Product):
+    stock_count = models.IntegerField(help_text="How many items are currently in the stock")
