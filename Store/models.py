@@ -1,8 +1,8 @@
 from django.db import models
-from django.urls import reverse
+#from django.urls import reverse
 from decimal import Decimal
 from django.utils.text import slugify
-from datetime import date
+#from datetime import date
 
 
 class ProductInStockQuerySet(models.QuerySet):
@@ -21,8 +21,8 @@ class Product(models.Model):
     stock = models.IntegerField(default=50, help_text="How many items are currentl;y in stock")
     sku = models.CharField(verbose_name="Stock keeping Unit", max_length=20, unique=True) 
     slug = models.SlugField(default="slugfield")
-    
-    #in_stock = ProductInStockQuerySet.as_manager()
+    objects =models.Manager()
+    in_stock = ProductInStockQuerySet.as_manager()
     
     def save(self,*args,**kwargs): # overwrting save after checking if slug is empty then assign name to the slug field
         if not self.slug:

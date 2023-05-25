@@ -1,10 +1,10 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render#,get_object_or_404
 from django.http.response import HttpResponse
 from Store.models import Product
 
 # Create your views here.
 
-def index(request):
+def index():
     return HttpResponse("Hello World")
 
 def welcome(request):    

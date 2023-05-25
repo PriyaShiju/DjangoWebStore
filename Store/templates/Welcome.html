@@ -9,7 +9,8 @@
 <body>
 
     <h3> Total products: {{ productscount }}
-        <br><br>  <a href="{% url 'CategoryView' %}"> Click here to view all Category Products </a> </h3>
+    <br><br>  <a href="{% url 'CategoryView' %}"> Click here to view all Category Products </a> </h3>
+    
     {% for p in products %}
         <div class="row">
             <div class="col-md-3" style="...">
