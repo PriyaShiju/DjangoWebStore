@@ -17,12 +17,18 @@ from django.contrib import admin
 from django.urls import path
 from DjangoWebStore import settings
 from django.conf.urls.static import static
+from Store import views
 
 #import debug_toolbar
+#http://127.0.0.1:8000/admin/
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('',views.welcome),
+    path('Category', views.CategoryView, name="CategoryView"),
+    path('ProductDetail/<int:id>', views.ProductDetail, name="ProductDetail"),
     
+   
 ]  + static(settings.MEDIA_URL , document_root = settings.MEDIA_ROOT)
 
 #https://docs.djangoproject.com/en/4.2/howto/static-files/deployment/
