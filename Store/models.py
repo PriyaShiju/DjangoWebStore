@@ -4,6 +4,7 @@ from decimal import Decimal
 from django.utils.text import slugify
 #from datetime import date
 
+#UAT
 class ProductInStockQuerySet(models.QuerySet):
     def in_stock(self):
         return self.filter(stock_count_gt=0)
