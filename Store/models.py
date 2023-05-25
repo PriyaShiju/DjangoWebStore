@@ -4,12 +4,9 @@ from decimal import Decimal
 from django.utils.text import slugify
 #from datetime import date
 
-
 class ProductInStockQuerySet(models.QuerySet):
     def in_stock(self):
         return self.filter(stock_count_gt=0)
-
-
 
 # Create your models here.    
 class Product(models.Model):
@@ -20,7 +17,7 @@ class Product(models.Model):
     date = models.DateField(auto_now=True)
     stock = models.IntegerField(default=50, help_text="How many items are currentl;y in stock")
     sku = models.CharField(verbose_name="Stock keeping Unit", max_length=20, unique=True) 
-    slug = models.SlugField(default="slugfield")
+    slug = models.SlugField(default="")
     objects =models.Manager()
     in_stock = ProductInStockQuerySet.as_manager()
     
